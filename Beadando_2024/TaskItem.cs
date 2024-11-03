@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace Beadando_2024
 {
+    public enum PriorityLevel
+    {
+        Low,
+        Medium,
+        High
+    }
+
     public class TaskItem
     {
         [Key]
@@ -15,6 +22,9 @@ namespace Beadando_2024
         public int Id { get; set; }
         public string Name { get; set; }
         public int CaterogryId { get; set; }
+        public PriorityLevel PriorityLevel { get; set; }
+        [Required]
+        public DateTime DueDate { get; set; }
         public Category Category { get; set; }
     }
 }

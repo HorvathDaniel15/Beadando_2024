@@ -48,12 +48,23 @@ namespace Beadando_2024
         private void addTask_Click(object sender, RoutedEventArgs e)
         {
             string newTask = TaskTextBox.Text;
-            if (!string.IsNullOrWhiteSpace(newTask) && CategoryComboBox.SelectedItem is Category selectedCategory)
+            if (!string.IsNullOrWhiteSpace(newTask) && PriorityComboBox.SelectedItem != null)
             {
-                var task = new TaskItem 
+                var selectedPriority = (PriorityComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+                PriorityLevel priorityLevel = Enum.Parse<PriorityLevel>(selectedPriority);
+
+                if (!DueDatePicker.SelectedDate.HasValue)
+                {
+                    MessageBox.Show("Kérjük, válasszon ki egy határidőt!", "Figyelmeztetés", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                var task = new TaskItem
                 {
                     Name = newTask,
-                    CaterogryId = selectedCategory.Id
+                    CaterogryId = (int)CategoryComboBox.SelectedValue,
+                    PriorityLevel = priorityLevel,
+                    DueDate = DueDatePicker.SelectedDate.Value
                 };
                 _context.Tasks.Add(task);
                 _context.SaveChanges();
@@ -61,6 +72,23 @@ namespace Beadando_2024
                 TaskTextBox.Clear();
             }
         }
+
+        private void FilterPriorityComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string selectedFilter = (FilterPriorityComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+
+
+            if (selectedFilter == "All")
+            {
+                TaskListBox.ItemsSource = _context.Tasks.ToList();
+            }
+            else
+            {
+                PriorityLevel priorityLevel = Enum.Parse<PriorityLevel>(selectedFilter);
+                TaskListBox.ItemsSource = _context.Tasks.Where(t => t.PriorityLevel == priorityLevel).ToList();
+            }
+        }
+
 
         private void editTask_Click(object sender, RoutedEventArgs e)
         {
@@ -73,17 +101,29 @@ namespace Beadando_2024
             }
         }
 
-        private void loadTask_Click(object sender, RoutedEventArgs e)
-        {
-            LoadTasks();
-        }
-
         private void LoadTasks()
         {
-            TaskListBox.Items.Clear();
-            foreach (var task in _context.Tasks.ToList())
+            var tasks = _context.Tasks.ToList();
+            TaskListBox.ItemsSource = tasks;
+
+            foreach (var item in tasks)
             {
-                TaskListBox.Items.Add(task);
+                var container = TaskListBox.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
+                if (container != null)
+                {
+                    switch (item.PriorityLevel)
+                    {
+                        case PriorityLevel.Low:
+                            container.Tag = Brushes.Green;
+                            break;
+                        case PriorityLevel.Medium:
+                            container.Tag = Brushes.Orange;
+                            break;
+                        case PriorityLevel.High:
+                            container.Background = Brushes.Red;
+                            break;
+                    }
+                }
             }
         }
 
@@ -94,6 +134,20 @@ namespace Beadando_2024
                 _context.Tasks.Remove(selectedTask);
                 _context.SaveChanges();
                 LoadTasks();
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var dueTasks = _context.Tasks
+                .Where(t => t.DueDate.Date == DateTime.Now.Date)
+                .Select(task => task.Name)
+                .ToList();
+
+            if (dueTasks.Any())
+            {
+                string message = "Reminder: The following tasks are due today:\n" + string.Join("\n", dueTasks);
+                MessageBox.Show(message);
             }
         }
     }

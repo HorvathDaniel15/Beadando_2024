@@ -4,23 +4,77 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Beadando_2024"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
+        Loaded="Window_Loaded"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBox x:Name="TaskTextBox" Width="300" Height="30" VerticalAlignment="Top" Margin="10"/>
-        <ComboBox x:Name="CategoryComboBox" Width="200" Height="30" VerticalAlignment="Top" Margin="320,10,10,0"/>
-        <Button Content="Hozzáadás" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,10,0" Click="addTask_Click"/>
+        <!-- Task input text box -->
+        <TextBox x:Name="TaskTextBox" Width="300" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="140,10,0,0"/>
 
-        <ListBox x:Name="TaskListBox" Width="480" Height="200" VerticalAlignment="Top" Margin="10,50,10,0">
+        <!-- Category selection ComboBox -->
+        <ComboBox x:Name="CategoryComboBox" Width="150" Height="30" VerticalAlignment="Top" Margin="320,10,0,0" />
+
+        <!-- Priority selection ComboBox -->
+        <ComboBox x:Name="PriorityComboBox" Width="150" Height="30" VerticalAlignment="Top" Margin="640,10,10,0">
+            <ComboBoxItem Content="Low" />
+            <ComboBoxItem Content="Medium" />
+            <ComboBoxItem Content="High" />
+        </ComboBox>
+
+        <!-- Due Date selection DatePicker -->
+        <DatePicker x:Name="DueDatePicker" Width="150" Height="30" VerticalAlignment="Stretch" Margin="10,250,10,0" />
+
+        <!-- Add Task Button -->
+        <Button Content="Hozzáadás" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,675,0" Click="addTask_Click"/>
+
+        <!-- Priority filter ComboBox -->
+        <ComboBox x:Name="FilterPriorityComboBox" Width="150" Height="30" VerticalAlignment="Top" Margin="10,50,0,0" SelectionChanged="FilterPriorityComboBox_SelectionChanged">
+            <ComboBoxItem Content="All" />
+            <ComboBoxItem Content="Low" />
+            <ComboBoxItem Content="Medium" />
+            <ComboBoxItem Content="High" />
+        </ComboBox>
+
+        <ListBox x:Name="TaskListBox" Width="750" Height="200" VerticalAlignment="Top" Margin="10,90,10,0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
+                    <Border>
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <!-- Alapértelmezett háttér -->
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PriorityLevel}" Value="{x:Static local:PriorityLevel.Low}">
+                                        <Setter Property="Background" Value="Green"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PriorityLevel}" Value="{x:Static local:PriorityLevel.Medium}">
+                                        <Setter Property="Background" Value="Orange"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PriorityLevel}" Value="{x:Static local:PriorityLevel.High}">
+                                        <Setter Property="Background" Value="DarkOrange"/>
+                                        <!-- Magas prioritás -->
+                                    </DataTrigger>
+                                    <!-- Határidő színjelzés -->
+                                    <DataTrigger Binding="{Binding DueDate}" Value="{x:Static sys:DateTime.Now}">
+                                        <Setter Property="Background" Value="Red"/>
+                                        <!-- Határidő lejár -->
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DueDate}">
+                                        <Setter Property="Background" Value="Yellow"/>
+                                        <!-- Közelgő határidő -->
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock Text="{Binding Name}" Margin="5" />
+                    </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
+        <!-- Buttons for task actions -->
         <Button Content="Törlés" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,10" Click="deleteTask_Click"/>
         <Button Content="Szerkesztés" Width="100" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,10" Click="editTask_Click"/>
-        <Button Content="Betöltés" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" Click="loadTask_Click"/>
     </Grid>
 </Window>
