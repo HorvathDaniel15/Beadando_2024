@@ -3,6 +3,7 @@ using Beadando_2024;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Beadando_2024.Migrations
 {
     [DbContext(typeof(TaskDbContext))]
-    partial class TaskDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241102152707_AddCategoryDb")]
+    partial class AddCategoryDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,6 +49,9 @@ namespace Beadando_2024.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CaterogryId")
                         .HasColumnType("int");
 
@@ -55,7 +61,7 @@ namespace Beadando_2024.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CaterogryId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Tasks");
                 });
@@ -64,7 +70,7 @@ namespace Beadando_2024.Migrations
                 {
                     b.HasOne("Beadando_2024.Category", "Category")
                         .WithMany("Tasks")
-                        .HasForeignKey("CaterogryId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

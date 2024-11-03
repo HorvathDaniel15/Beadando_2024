@@ -17,6 +17,18 @@ namespace Beadando_2024
             }
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TaskItem>()
+                .HasOne(t => t.Category)
+                .WithMany(c => c.Tasks)
+                .HasForeignKey(t => t.CaterogryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            base.OnModelCreating(modelBuilder);
+        }
+
         public DbSet<TaskItem> Tasks { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

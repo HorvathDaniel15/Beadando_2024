@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace Beadando_2024
 {
-    public class TaskItem
+    public class Category
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
-        public int CaterogryId { get; set; }
-        public Category Category { get; set; }
+        public ICollection<TaskItem> Tasks { get; set; } = new List<TaskItem>();
     }
 }

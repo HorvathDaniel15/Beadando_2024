@@ -23,15 +23,38 @@ namespace Beadando_2024
             InitializeComponent();
             _context = new TaskDbContext();
             _context.Database.EnsureCreated();
+            if (!_context.Categories.Any())
+            {
+                _context.Categories.AddRange(new List<Category>
+                {
+                    new Category { Name = "Munka" },
+                    new Category { Name = "Személyes" },
+                    new Category { Name = "Tanulás" }
+                });
+                _context.SaveChanges();
+            }
+
+            LoadCategories();
             LoadTasks();
+        }
+
+        private void LoadCategories()
+        {
+            CategoryComboBox.ItemsSource = _context.Categories.ToList();
+            CategoryComboBox.DisplayMemberPath = "Name";
+            CategoryComboBox.SelectedValuePath = "Id";
         }
 
         private void addTask_Click(object sender, RoutedEventArgs e)
         {
             string newTask = TaskTextBox.Text;
-            if (!string.IsNullOrWhiteSpace(newTask))
+            if (!string.IsNullOrWhiteSpace(newTask) && CategoryComboBox.SelectedItem is Category selectedCategory)
             {
-                var task = new TaskItem { Name = newTask };
+                var task = new TaskItem 
+                {
+                    Name = newTask,
+                    CaterogryId = selectedCategory.Id
+                };
                 _context.Tasks.Add(task);
                 _context.SaveChanges();
                 LoadTasks();
