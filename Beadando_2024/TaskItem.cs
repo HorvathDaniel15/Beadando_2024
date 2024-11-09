@@ -26,5 +26,7 @@ namespace Beadando_2024
         [Required]
         public DateTime DueDate { get; set; }
         public Category Category { get; set; }
+
+        public bool Deadline { get; set; }
     }
 }

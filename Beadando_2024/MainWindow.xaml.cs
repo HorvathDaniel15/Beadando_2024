@@ -111,19 +111,29 @@ namespace Beadando_2024
                 var container = TaskListBox.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
                 if (container != null)
                 {
-                    switch (item.PriorityLevel)
+                    
+                    if (item.DueDate.Date >= DateTime.Now.Date)
                     {
-                        case PriorityLevel.Low:
-                            container.Tag = Brushes.Green;
-                            break;
-                        case PriorityLevel.Medium:
-                            container.Tag = Brushes.Orange;
-                            break;
-                        case PriorityLevel.High:
-                            container.Background = Brushes.Red;
-                            break;
+                        item.Deadline = true;
                     }
+                    else
+                    {
+                        switch (item.PriorityLevel)
+                        {
+                            case PriorityLevel.Low:
+                                container.Tag = Brushes.Green;
+                                break;
+                            case PriorityLevel.Medium:
+                                container.Tag = Brushes.Orange;
+                                break;
+                            case PriorityLevel.High:
+                                container.Background = Brushes.Red;
+                                break;
+                        }
+                    }
+                    
                 }
+                
             }
         }
 

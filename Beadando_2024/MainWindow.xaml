@@ -52,12 +52,12 @@
                                         <Setter Property="Background" Value="Orange"/>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding PriorityLevel}" Value="{x:Static local:PriorityLevel.High}">
-                                        <Setter Property="Background" Value="DarkOrange"/>
+                                        <Setter Property="Background" Value="Red"/>
                                         <!-- Magas prioritás -->
                                     </DataTrigger>
                                     <!-- Határidő színjelzés -->
-                                    <DataTrigger Binding="{Binding DueDate}" Value="{x:Static sys:DateTime.Now}">
-                                        <Setter Property="Background" Value="Red"/>
+                                    <DataTrigger Binding="{Binding Deadline}" Value="True">
+                                        <Setter Property="Background" Value="Purple"/>
                                         <!-- Határidő lejár -->
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding DueDate}">

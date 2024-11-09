@@ -4,6 +4,7 @@ using Beadando_2024;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Beadando_2024.Migrations
 {
     [DbContext(typeof(TaskDbContext))]
-    partial class TaskDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241107000229_CreateDb2")]
+    partial class CreateDb2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,9 +52,6 @@ namespace Beadando_2024.Migrations
 
                     b.Property<int>("CaterogryId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("Deadline")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
