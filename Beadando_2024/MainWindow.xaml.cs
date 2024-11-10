@@ -125,5 +125,19 @@ namespace Beadando_2024
                 MessageBox.Show(message);
             }
         }
+
+        private void detailsTask_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedTask = TaskListBox.SelectedItem as TaskItem;
+            if (selectedTask != null)
+            {
+                TaskDetailsWindow taskDetailsWindow = new TaskDetailsWindow(selectedTask);
+                taskDetailsWindow.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Kérjük, válasszon ki egy feladatot!", "Figyelmeztetés", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
     }
 }

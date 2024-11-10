@@ -27,7 +27,7 @@ namespace Beadando_2024
         public DateTime StartTime { get; set; }
         [Required]
         public DateTime EndTime { get; set; }
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
         public bool Deadline { get; set; }
     }
 }

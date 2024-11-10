@@ -5,8 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Beadando_2024"
         mc:Ignorable="d"
-        Title="TaskDetailsWindow" Height="450" Width="800">
+        Title="TaskDetailsWindow" Height="450" Width="400">
     <Grid>
-        
+        <StackPanel Margin="20">
+            <TextBlock Text="Feladat Neve:" FontWeight="Bold" />
+            <TextBlock x:Name="TaskNameTextBlock" Margin="0,5,0,15" />
+
+            <TextBlock Text="Kategória:" FontWeight="Bold" />
+            <TextBlock x:Name="CategoryTextBlock" Margin="0,5,0,15" />
+
+            <TextBlock Text="Prioritás:" FontWeight="Bold" />
+            <TextBlock x:Name="PriorityTextBlock" Margin="0,5,0,15" />
+
+            <TextBlock Text="Kezdési idő:" FontWeight="Bold" />
+            <TextBlock x:Name="StartTimeTextBlock" Margin="0,5,0,15" />
+
+            <TextBlock Text="Határidő:" FontWeight="Bold" />
+            <TextBlock x:Name="EndTimeTextBlock" Margin="0,5,0,15" />
+        </StackPanel>
     </Grid>
 </Window>
