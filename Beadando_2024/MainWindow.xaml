@@ -9,24 +9,8 @@
         Loaded="Window_Loaded"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <!-- Task input text box -->
-        <TextBox x:Name="TaskTextBox" Width="300" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="140,10,0,0"/>
-
-        <!-- Category selection ComboBox -->
-        <ComboBox x:Name="CategoryComboBox" Width="150" Height="30" VerticalAlignment="Top" Margin="320,10,0,0" />
-
-        <!-- Priority selection ComboBox -->
-        <ComboBox x:Name="PriorityComboBox" Width="150" Height="30" VerticalAlignment="Top" Margin="640,10,10,0">
-            <ComboBoxItem Content="Low" />
-            <ComboBoxItem Content="Medium" />
-            <ComboBoxItem Content="High" />
-        </ComboBox>
-
-        <!-- Due Date selection DatePicker -->
-        <DatePicker x:Name="DueDatePicker" Width="150" Height="30" VerticalAlignment="Stretch" Margin="10,250,10,0" />
-
         <!-- Add Task Button -->
-        <Button Content="Hozzáadás" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,675,0" Click="addTask_Click"/>
+        <Button Content="Hozzáadás" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,675,0" Click="openAddTask_Click"/>
 
         <!-- Priority filter ComboBox -->
         <ComboBox x:Name="FilterPriorityComboBox" Width="150" Height="30" VerticalAlignment="Top" Margin="10,50,0,0" SelectionChanged="FilterPriorityComboBox_SelectionChanged">
@@ -36,7 +20,7 @@
             <ComboBoxItem Content="High" />
         </ComboBox>
 
-        <ListBox x:Name="TaskListBox" Width="750" Height="200" VerticalAlignment="Top" Margin="10,90,10,0">
+        <ListBox x:Name="TaskListBox" Width="750" Height="259" VerticalAlignment="Top" Margin="25,90,25,0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border>

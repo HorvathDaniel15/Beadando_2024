@@ -24,9 +24,10 @@ namespace Beadando_2024
         public int CaterogryId { get; set; }
         public PriorityLevel PriorityLevel { get; set; }
         [Required]
-        public DateTime DueDate { get; set; }
+        public DateTime StartTime { get; set; }
+        [Required]
+        public DateTime EndTime { get; set; }
         public Category Category { get; set; }
-
         public bool Deadline { get; set; }
     }
 }

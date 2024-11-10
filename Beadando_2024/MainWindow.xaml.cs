@@ -23,54 +23,17 @@ namespace Beadando_2024
             InitializeComponent();
             _context = new TaskDbContext();
             _context.Database.EnsureCreated();
-            if (!_context.Categories.Any())
-            {
-                _context.Categories.AddRange(new List<Category>
-                {
-                    new Category { Name = "Munka" },
-                    new Category { Name = "Személyes" },
-                    new Category { Name = "Tanulás" }
-                });
-                _context.SaveChanges();
-            }
-
-            LoadCategories();
             LoadTasks();
         }
 
-        private void LoadCategories()
+        private void openAddTask_Click(object sender, RoutedEventArgs e)
         {
-            CategoryComboBox.ItemsSource = _context.Categories.ToList();
-            CategoryComboBox.DisplayMemberPath = "Name";
-            CategoryComboBox.SelectedValuePath = "Id";
-        }
-
-        private void addTask_Click(object sender, RoutedEventArgs e)
-        {
-            string newTask = TaskTextBox.Text;
-            if (!string.IsNullOrWhiteSpace(newTask) && PriorityComboBox.SelectedItem != null)
+            AddTaskWindow addTaskWindow = new AddTaskWindow(_context);
+            if (addTaskWindow.ShowDialog() == true)
             {
-                var selectedPriority = (PriorityComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
-                PriorityLevel priorityLevel = Enum.Parse<PriorityLevel>(selectedPriority);
-
-                if (!DueDatePicker.SelectedDate.HasValue)
-                {
-                    MessageBox.Show("Kérjük, válasszon ki egy határidőt!", "Figyelmeztetés", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                var task = new TaskItem
-                {
-                    Name = newTask,
-                    CaterogryId = (int)CategoryComboBox.SelectedValue,
-                    PriorityLevel = priorityLevel,
-                    DueDate = DueDatePicker.SelectedDate.Value
-                };
-                _context.Tasks.Add(task);
-                _context.SaveChanges();
                 LoadTasks();
-                TaskTextBox.Clear();
             }
+            LoadTasks();
         }
 
         private void FilterPriorityComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -94,11 +57,13 @@ namespace Beadando_2024
         {
             if (TaskListBox.SelectedItem is TaskItem selectedTask)
             {
-                TaskTextBox.Text = selectedTask.Name;
-                _context.Tasks.Remove(selectedTask);
-                _context.SaveChanges();
-                LoadTasks();
+                var editTaskWindow = new AddTaskWindow(_context, selectedTask);
+                if (editTaskWindow.ShowDialog() == true)
+                {
+                    LoadTasks();
+                }
             }
+            LoadTasks();
         }
 
         private void LoadTasks()
@@ -112,7 +77,7 @@ namespace Beadando_2024
                 if (container != null)
                 {
                     
-                    if (item.DueDate.Date >= DateTime.Now.Date)
+                    if (item.EndTime.Date >= DateTime.Now)
                     {
                         item.Deadline = true;
                     }
@@ -150,7 +115,7 @@ namespace Beadando_2024
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var dueTasks = _context.Tasks
-                .Where(t => t.DueDate.Date == DateTime.Now.Date)
+                .Where(t => t.EndTime.Date == DateTime.Now.Date)
                 .Select(task => task.Name)
                 .ToList();
 
