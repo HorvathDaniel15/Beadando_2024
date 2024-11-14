@@ -14,6 +14,12 @@ namespace Beadando_2024
         Medium,
         High
     }
+    public enum CategoryEnum
+    {
+        Job,
+        Personal,
+        Learning
+    }
 
     public class TaskItem
     {
@@ -21,13 +27,12 @@ namespace Beadando_2024
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
-        public int CaterogryId { get; set; }
         public PriorityLevel PriorityLevel { get; set; }
+        public CategoryEnum CategoryEnum { get; set; }
         [Required]
         public DateTime StartTime { get; set; }
         [Required]
         public DateTime EndTime { get; set; }
-        public virtual Category Category { get; set; }
         public bool Deadline { get; set; }
     }
 }

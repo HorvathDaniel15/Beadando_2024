@@ -31,7 +31,7 @@ namespace Beadando_2024
             {
                 _task = task;
                 TaskNameTextBox.Text = _task.Name;
-                CategoryComboBox.SelectedValue = _task.CaterogryId;
+                CategoryComboBox.SelectedValue = _task.CategoryEnum;
                 PriorityComboBox.SelectedItem = _task.PriorityLevel;
                 StartDatePicker.SelectedDate = _task.StartTime.Date;
                 StartTimeComboBox.SelectedItem = _task.StartTime.ToString("HH:mm");
@@ -44,18 +44,6 @@ namespace Beadando_2024
                 _task = new TaskItem();
             }
 
-            if (!_context.Categories.Any())
-            {
-                _context.Categories.AddRange(new List<Category>
-                {
-                    new Category { Name = "Munka" },
-                    new Category { Name = "Személyes" },
-                    new Category { Name = "Tanulás" }
-                });
-                _context.SaveChanges();
-            }
-
-            LoadCategories();
 
             for (int hour = 8; hour <= 23; hour++)
             {
@@ -67,12 +55,6 @@ namespace Beadando_2024
                 }
             }
         }
-        private void LoadCategories()
-        {
-            CategoryComboBox.ItemsSource = _context.Categories.ToList();
-            CategoryComboBox.DisplayMemberPath = "Name";
-            CategoryComboBox.SelectedValuePath = "Id";
-        }
         private void addTask_Click(object sender, RoutedEventArgs e)
         {
             string newTask = TaskNameTextBox.Text;
@@ -81,6 +63,9 @@ namespace Beadando_2024
             {
                 var selectedPriority = (PriorityComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
                 PriorityLevel priorityLevel = Enum.Parse<PriorityLevel>(selectedPriority);
+
+                var selectedCategory = (CategoryComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+                CategoryEnum categoryEnum = Enum.Parse<CategoryEnum>(selectedCategory);
 
                 if (StartTimeComboBox.SelectedItem == null || EndTimeComboBox.SelectedItem == null ||
                     !StartDatePicker.SelectedDate.HasValue || !EndDatePicker.SelectedDate.HasValue)
@@ -100,7 +85,7 @@ namespace Beadando_2024
                 if (_task != null)
                 {
                     _task.Name = newTask;
-                    _task.CaterogryId = (int)CategoryComboBox.SelectedValue;
+                    _task.CategoryEnum = categoryEnum;
                     _task.PriorityLevel = priorityLevel;
                     _task.StartTime = StartDatePicker.SelectedDate.Value
                         .AddHours(startHour)
@@ -116,7 +101,7 @@ namespace Beadando_2024
                     var task = new TaskItem
                     {
                         Name = newTask,
-                        CaterogryId = (int)CategoryComboBox.SelectedValue,
+                        CategoryEnum = categoryEnum,
                         PriorityLevel = priorityLevel,
                         StartTime = StartDatePicker.SelectedDate.Value
                             .AddHours(startHour)

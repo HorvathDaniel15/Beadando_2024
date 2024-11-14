@@ -24,7 +24,7 @@ namespace Beadando_2024
             InitializeComponent();
 
             TaskNameTextBlock.Text = task.Name;
-            CategoryTextBlock.Text = task.CaterogryId.ToString();
+            CategoryTextBlock.Text = task.CategoryEnum.ToString();
             PriorityTextBlock.Text = task.PriorityLevel.ToString();
             StartTimeTextBlock.Text = task.StartTime.ToString("yyyy.MM.dd HH:mm");
             EndTimeTextBlock.Text = task.EndTime.ToString("yyyy.MM.dd HH:mm");

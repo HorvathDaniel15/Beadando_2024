@@ -45,7 +45,11 @@
                 <ComboBoxItem Content="High" />
             </ComboBox>
             <!-- Category selection ComboBox -->
-            <ComboBox x:Name="CategoryComboBox" Width="150" Height="30" VerticalAlignment="Top" Margin="50,0,0,0" />
+            <ComboBox x:Name="CategoryComboBox" Width="150" Height="30" VerticalAlignment="Top" Margin="50,0,0,0">
+                <ComboBoxItem Content="Job"/>
+                <ComboBoxItem Content="Personal"/>
+                <ComboBoxItem Content="Learning"/>
+            </ComboBox>
         </StackPanel>
 
         <!-- Save Button -->
